@@ -10,9 +10,15 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Calculator extends Application {
     TextField textField;
+    double valueOne;
+    double valueTwo;
+    double valueThree;
+
+    int operation;
     @Override
     public void start(Stage stage) throws IOException {
         stage.setTitle("Calculator");
@@ -205,11 +211,79 @@ public class Calculator extends Application {
     }
 
     private void handleButtonPressNumber(String buttonValue) {
-        textField.setText(textField.getText() + buttonValue);
+        if (Objects.equals(textField.getText(), "0") && !Objects.equals(buttonValue, "0")) {
+            textField.setText(buttonValue);
+        } else if (!Objects.equals(textField.getText(), "0")) {
+            textField.setText(textField.getText() + buttonValue);
+        }
+
+    }
+    public void handleButtonPressEquals() {
+        double result;
+        switch (operation) {
+            case 1: {
+                valueTwo = Double.parseDouble(textField.getText());
+                result = valueOne + valueTwo;
+                textField.setText(String.valueOf(result));
+                break;
+            }
+            case 2: {
+                valueTwo = Double.parseDouble(textField.getText());
+                result = valueOne - valueTwo;
+                textField.setText(String.valueOf(result));
+                break;
+            }
+            case 3: {
+                valueTwo = Double.parseDouble(textField.getText());
+                result = valueOne * valueTwo;
+                textField.setText(String.valueOf(result));
+                break;
+            }
+            case 4: {
+                valueTwo = Double.parseDouble(textField.getText());
+                result = valueOne / valueTwo;
+                textField.setText(String.valueOf(result));
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+    private void handleButtonPressOperationAddition() {
+        if (valueOne == 0) {
+            valueOne = Double.parseDouble(textField.getText());
+            operation = 1;
+            textField.setText("0");
+        }
+    }
+    private void handleButtonPressOperationSubtraction() {
+        if (valueOne == 0) {
+            valueOne = Double.parseDouble(textField.getText());
+            operation = 2;
+            textField.setText("0");
+        }
+    }
+    private void handleButtonPressOperationMultiplication() {
+        if (valueOne == 0) {
+            valueOne = Double.parseDouble(textField.getText());
+            operation = 3;
+            textField.setText("0");
+        }
+    }
+    private void handleButtonPressOperationDivision() {
+        if (valueOne == 0) {
+            valueOne = Double.parseDouble(textField.getText());
+            operation = 4;
+            textField.setText("0");
+        }
     }
 
     private void handleButtonPressClear() {
         textField.setText("0");
+        valueOne = 0;
+        valueTwo = 0;
+        operation = 0;
     }
     public static void main(String[] args) {
         launch();
